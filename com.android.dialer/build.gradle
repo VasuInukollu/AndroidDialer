@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.android.dialer"
+        applicationId "com.inukollu.dialer"
         minSdkVersion 21
         targetSdkVersion 24
         versionCode 71

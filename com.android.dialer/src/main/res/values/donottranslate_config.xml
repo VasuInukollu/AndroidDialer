@@ -35,5 +35,5 @@
     <string name="config_prohibited_phone_number_regexp"></string>
 
     <!-- File Authority for AOSP Dialer files -->
-    <string name="contacts_file_provider_authority">com.android.dialer.files</string>
+    <string name="contacts_file_provider_authority">com.inukollu.dialer.files</string>
 </resources>
