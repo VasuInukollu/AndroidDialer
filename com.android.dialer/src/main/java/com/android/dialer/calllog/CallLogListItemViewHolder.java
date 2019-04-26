@@ -697,7 +697,6 @@ public final class CallLogListItemViewHolder extends RecyclerView.ViewHolder
                     numberType, /* phone number type (e.g. mobile) in second line of contact view */
                     accountHandle);
         } else if(view.getId() == R.id.whatsapp_action){
-            Toast.makeText(mContext, number, Toast.LENGTH_LONG).show();
             PackageManager packageManager = mContext.getPackageManager();
             Intent i = new Intent(Intent.ACTION_VIEW);
 

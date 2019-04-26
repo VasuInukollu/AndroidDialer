@@ -154,7 +154,7 @@
 
         <ImageView
             style="@style/CallLogActionIconStyle"
-            android:src="@drawable/ic_info_outline_24dp" />
+            android:src="@drawable/ic_whatspp" />
 
         <TextView
             style="@style/CallLogActionTextStyle"
