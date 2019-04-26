@@ -148,4 +148,18 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/whatsapp_action"
+        style="@style/CallLogActionStyle">
+
+        <ImageView
+            style="@style/CallLogActionIconStyle"
+            android:src="@drawable/ic_info_outline_24dp" />
+
+        <TextView
+            style="@style/CallLogActionTextStyle"
+            android:text="WhatsApp" />
+
+    </LinearLayout>
+
 </LinearLayout>
