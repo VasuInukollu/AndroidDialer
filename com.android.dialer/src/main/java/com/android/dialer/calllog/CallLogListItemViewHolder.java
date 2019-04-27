@@ -19,10 +19,13 @@ package com.android.dialer.calllog;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CallLog;
 import android.provider.CallLog.Calls;
+import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -38,6 +41,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.QuickContactBadge;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.contacts.common.CallUtil;
 import com.android.contacts.common.ClipboardUtils;
@@ -65,6 +69,7 @@ import com.android.dialer.voicemail.VoicemailPlaybackPresenter;
 import com.android.dialerbind.ObjectFactory;
 import com.google.common.collect.Lists;
 
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -103,6 +108,7 @@ public final class CallLogListItemViewHolder extends RecyclerView.ViewHolder
     public View sendMessageView;
     public View detailsButtonView;
     public View callWithNoteButtonView;
+    public View testButtonView;
     public ImageView workIconView;
 
     /**
@@ -434,6 +440,9 @@ public final class CallLogListItemViewHolder extends RecyclerView.ViewHolder
             callWithNoteButtonView = actionsView.findViewById(R.id.call_with_note_action);
             callWithNoteButtonView.setOnClickListener(this);
 
+            testButtonView = actionsView.findViewById(R.id.whatsapp_action);
+            testButtonView.setOnClickListener(this);
+
             mExtendedBlockingViewStub =
                     (ViewStub) actionsView.findViewById(R.id.extended_blocking_actions_container);
         }
@@ -576,7 +585,8 @@ public final class CallLogListItemViewHolder extends RecyclerView.ViewHolder
                     callButtonView,
                     callWithNoteButtonView,
                     detailsButtonView,
-                    voicemailPlaybackView);
+                    voicemailPlaybackView,
+                    testButtonView);
 
             List<View> blockedNumberVisibleViews = Lists.newArrayList(detailsButtonView);
             List<View> extendedBlockingVisibleViews = Lists.newArrayList(detailsButtonView);
@@ -686,7 +696,25 @@ public final class CallLogListItemViewHolder extends RecyclerView.ViewHolder
                                                                            view in dialog. */
                     numberType, /* phone number type (e.g. mobile) in second line of contact view */
                     accountHandle);
-        } else {
+        } else if(view.getId() == R.id.whatsapp_action){
+            PackageManager packageManager = mContext.getPackageManager();
+            Intent i = new Intent(Intent.ACTION_VIEW);
+
+            try {
+                String url = null;
+                if(number.contains("+91"))
+                    url = "https://api.whatsapp.com/send?phone="+number;//+"91 9000398877"; //+"&text=" + URLEncoder.encode(message, "UTF-8");
+                else url = "https://api.whatsapp.com/send?phone="+"91 "+number;//+"91 9000398877"; //+"&text=" + URLEncoder.encode(message, "UTF-8");
+                i.setPackage("com.whatsapp");
+                i.setData(Uri.parse(url));
+                if (i.resolveActivity(packageManager) != null) {
+                    mContext.startActivity(i);
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        else {
             final IntentProvider intentProvider = (IntentProvider) view.getTag();
             if (intentProvider != null) {
                 final Intent intent = intentProvider.getIntent(mContext);
